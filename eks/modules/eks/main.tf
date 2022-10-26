@@ -103,17 +103,23 @@ module "eks" {
 }
 
 resource "null_resource" "kubeconfig" {
+  triggers = {
+    account_id   = var.account_id
+    aws_region   = var.aws_region
+    cluster_name = var.cluster_name
+  }
+
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${var.cluster_name} --region ${var.aws_region}"
+    command = "aws eks update-kubeconfig --name ${self.triggers.cluster_name} --region ${self.triggers.aws_region}"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = <<EOT
-      kubectl config unset contexts.arn:aws:eks:${var.aws_region}:${var.account_id}:cluster/${var.cluster_name}
-      kubectl config unset clusters.arn:aws:eks:${var.aws_region}:${var.account_id}:cluster/${var.cluster_name}
-      kubectl config unset users.arn:aws:eks:${var.aws_region}:${var.account_id}:cluster/${var.cluster_name}
-    EOT
+    command = <<EOF
+      kubectl config unset contexts.arn:aws:eks:${self.triggers.aws_region}:${self.triggers.account_id}:cluster/${self.triggers.cluster_name}
+      kubectl config unset clusters.arn:aws:eks:${self.triggers.aws_region}:${self.triggers.account_id}:cluster/${self.triggers.cluster_name}
+      kubectl config unset users.arn:aws:eks:${self.triggers.aws_region}:${self.triggers.account_id}:cluster/${self.triggers.cluster_name}
+    EOF
   }
 
   depends_on = [module.eks]
