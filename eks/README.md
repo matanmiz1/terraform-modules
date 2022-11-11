@@ -1,5 +1,5 @@
-# terraform-architectures
-Deploying EKS cluster,using managed node group.
+# EKS
+Deploying EKS cluster,using managed node group.  
 Installing AWS Load Balancer Controller using helm chart.  
 
 Tested on versions:  
@@ -58,27 +58,27 @@ module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_cluster_kube
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_all"]
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]
-module.eks_cluster.module.eks.kubernetes_config_map_v1_data.aws_auth[0]
---- EKS ---
+module.eks_cluster.module.eks.kubernetes_config_map_v1_data.aws_auth[0]  
+--- EKS ---  
 
---- VPC ---
-module.vpc.module.vpc.aws_eip.nat[0]
-module.vpc.module.vpc.aws_internet_gateway.this[0]
-module.vpc.module.vpc.aws_nat_gateway.this[0]
-module.vpc.module.vpc.aws_route.private_nat_gateway[0]
-module.vpc.module.vpc.aws_route.public_internet_gateway[0]
-module.vpc.module.vpc.aws_route_table.private[0]
-module.vpc.module.vpc.aws_route_table.public[0]
-module.vpc.module.vpc.aws_route_table_association.private[0]
-module.vpc.module.vpc.aws_route_table_association.private[1]
-module.vpc.module.vpc.aws_route_table_association.public[0]
-module.vpc.module.vpc.aws_route_table_association.public[1]
-module.vpc.module.vpc.aws_subnet.private[0]
-module.vpc.module.vpc.aws_subnet.private[1]
-module.vpc.module.vpc.aws_subnet.public[0]
-module.vpc.module.vpc.aws_subnet.public[1]
-module.vpc.module.vpc.aws_vpc.this[0]
---- VPC ---
+--- VPC ---  
+module.vpc.module.vpc.aws_eip.nat[0]  
+module.vpc.module.vpc.aws_internet_gateway.this[0]  
+module.vpc.module.vpc.aws_nat_gateway.this[0]  
+module.vpc.module.vpc.aws_route.private_nat_gateway[0]  
+module.vpc.module.vpc.aws_route.public_internet_gateway[0]  
+module.vpc.module.vpc.aws_route_table.private[0]  
+module.vpc.module.vpc.aws_route_table.public[0]  
+module.vpc.module.vpc.aws_route_table_association.private[0]  
+module.vpc.module.vpc.aws_route_table_association.private[1]  
+module.vpc.module.vpc.aws_route_table_association.public[0]  
+module.vpc.module.vpc.aws_route_table_association.public[1]  
+module.vpc.module.vpc.aws_subnet.private[0]  
+module.vpc.module.vpc.aws_subnet.private[1]  
+module.vpc.module.vpc.aws_subnet.public[0]  
+module.vpc.module.vpc.aws_subnet.public[1]  
+module.vpc.module.vpc.aws_vpc.this[0]  
+--- VPC ---  
 
 --- Node Groups ---
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_caller_identity.current
