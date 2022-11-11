@@ -4,11 +4,11 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.31.0"
+      version = "~> 4.39.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.13.1"
+      version = "~> 2.15.0"
     }
   }
 
@@ -40,5 +40,11 @@ provider "kubernetes" {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
     args        = ["eks", "get-token", "--cluster-name", module.eks_cluster.cluster_id]
+  }
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
   }
 }

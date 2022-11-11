@@ -42,4 +42,6 @@ locals {
       groups   = ["system:masters"]
     }
   ]
+
+  alb_controller_service_account_name = "aws-load-balancer-controller"
 }

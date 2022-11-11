@@ -1,16 +1,33 @@
 Tested on versions:
-vpc ~ 3.14.4
-eks ~ 18.29.0
+aws ~ 4.39.0
+kubernetes ~ 2.15.0
+vpc ~ 3.18.1
+eks ~ 18.30.3
 
 list of resources created:
+
 data.aws_caller_identity.current
+--- ALB Controller ---
+module.eks_cluster.data.aws_iam_policy_document.alb_controller_assume
+module.eks_cluster.aws_iam_policy.alb_controller
+module.eks_cluster.aws_iam_role.alb_controller
+module.eks_cluster.aws_iam_role_policy_attachment.alb_controller
+module.eks_cluster.aws_security_group_rule.alb_controller_9443
+module.eks_cluster.helm_release.alb_controller
+module.eks_cluster.kubernetes_service_account.alb_controller
+--- ALB Controller ---
+
 --- EKS ---
 module.eks_cluster.null_resource.kubeconfig
 module.eks_cluster.module.eks.data.aws_caller_identity.current
+module.eks_cluster.module.eks.data.aws_default_tags.current
 module.eks_cluster.module.eks.data.aws_iam_policy_document.assume_role_policy[0]
 module.eks_cluster.module.eks.data.aws_partition.current
 module.eks_cluster.module.eks.data.tls_certificate.this[0]
 module.eks_cluster.module.eks.aws_cloudwatch_log_group.this[0]
+module.eks_cluster.module.eks.aws_ec2_tag.cluster_primary_security_group["Environment"]
+module.eks_cluster.module.eks.aws_ec2_tag.cluster_primary_security_group["Owner"]
+module.eks_cluster.module.eks.aws_ec2_tag.cluster_primary_security_group["Terraform"]
 module.eks_cluster.module.eks.aws_eks_addon.this["coredns"]
 module.eks_cluster.module.eks.aws_eks_addon.this["kube-proxy"]
 module.eks_cluster.module.eks.aws_eks_addon.this["vpc-cni"]
@@ -39,6 +56,7 @@ module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]
 module.eks_cluster.module.eks.kubernetes_config_map_v1_data.aws_auth[0]
 --- EKS ---
+
 --- VPC ---
 module.vpc.module.vpc.aws_eip.nat[0]
 module.vpc.module.vpc.aws_internet_gateway.this[0]
@@ -57,6 +75,7 @@ module.vpc.module.vpc.aws_subnet.public[0]
 module.vpc.module.vpc.aws_subnet.public[1]
 module.vpc.module.vpc.aws_vpc.this[0]
 --- VPC ---
+
 --- Node Groups ---
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_caller_identity.current
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_iam_policy_document.assume_role_policy[0]
@@ -68,17 +87,8 @@ module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_launch_template.this[0]
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_security_group.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].data.aws_caller_identity.current
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].data.aws_iam_policy_document.assume_role_policy[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].data.aws_partition.current
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_eks_node_group.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_iam_role.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_launch_template.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["green"].aws_security_group.this[0]
 --- Node Groups ---
+
 --- KMS ---
 module.eks_cluster.module.eks.module.kms.data.aws_caller_identity.current
 module.eks_cluster.module.eks.module.kms.data.aws_partition.current
