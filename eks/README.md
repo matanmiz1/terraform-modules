@@ -80,20 +80,20 @@ module.vpc.module.vpc.aws_subnet.public[1]
 module.vpc.module.vpc.aws_vpc.this[0]  
 --- VPC ---  
 
---- Node Groups ---
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_caller_identity.current
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_iam_policy_document.assume_role_policy[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_partition.current
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_eks_node_group.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_launch_template.this[0]
-module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_security_group.this[0]
---- Node Groups ---
+--- Node Groups ---  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_caller_identity.current  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_iam_policy_document.assume_role_policy[0]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_partition.current  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_eks_node_group.this[0]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role.this[0]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_iam_role_policy_attachment.this["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_launch_template.this[0]  
+module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_security_group.this[0]  
+--- Node Groups ---  
 
---- KMS ---
-module.eks_cluster.module.eks.module.kms.data.aws_caller_identity.current
-module.eks_cluster.module.eks.module.kms.data.aws_partition.current
---- KMS ---
+--- KMS ---  
+module.eks_cluster.module.eks.module.kms.data.aws_caller_identity.current  
+module.eks_cluster.module.eks.module.kms.data.aws_partition.current  
+--- KMS ---  
