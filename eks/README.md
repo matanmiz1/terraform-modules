@@ -1,25 +1,29 @@
-Tested on versions:
-aws ~ 4.39.0
-kubernetes ~ 2.15.0
-vpc ~ 3.18.1
-eks ~ 18.30.3
+# terraform-architectures
+Deploying EKS cluster,using managed node group.
+Installing AWS Load Balancer Controller using helm chart.  
 
-list of resources created:
-
-data.aws_caller_identity.current
---- ALB Controller ---
-module.eks_cluster.data.aws_iam_policy_document.alb_controller_assume
-module.eks_cluster.aws_iam_policy.alb_controller
-module.eks_cluster.aws_iam_role.alb_controller
-module.eks_cluster.aws_iam_role_policy_attachment.alb_controller
-module.eks_cluster.aws_security_group_rule.alb_controller_9443
-module.eks_cluster.helm_release.alb_controller
-module.eks_cluster.kubernetes_service_account.alb_controller
---- ALB Controller ---
-
---- EKS ---
-module.eks_cluster.null_resource.kubeconfig
-module.eks_cluster.module.eks.data.aws_caller_identity.current
+Tested on versions:  
+aws ~ 4.39.0  
+kubernetes ~ 2.15.0  
+vpc ~ 3.18.1  
+eks ~ 18.30.3  
+  
+list of resources created:  
+  
+data.aws_caller_identity.current  
+--- ALB Controller ---  
+module.eks_cluster.data.aws_iam_policy_document.alb_controller_assume  
+module.eks_cluster.aws_iam_policy.alb_controller  
+module.eks_cluster.aws_iam_role.alb_controller  
+module.eks_cluster.aws_iam_role_policy_attachment.alb_controller  
+module.eks_cluster.aws_security_group_rule.alb_controller_9443  
+module.eks_cluster.helm_release.alb_controller  
+module.eks_cluster.kubernetes_service_account.alb_controller  
+--- ALB Controller ---  
+  
+--- EKS ---  
+module.eks_cluster.null_resource.kubeconfig  
+module.eks_cluster.module.eks.data.aws_caller_identity.current  
 module.eks_cluster.module.eks.data.aws_default_tags.current
 module.eks_cluster.module.eks.data.aws_iam_policy_document.assume_role_policy[0]
 module.eks_cluster.module.eks.data.aws_partition.current
