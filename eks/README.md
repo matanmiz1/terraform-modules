@@ -3,10 +3,10 @@ Deploying EKS cluster,using managed node group.
 Installing AWS Load Balancer Controller using helm chart.  
 
 Tested on versions:  
-aws ~ 4.39.0  
-kubernetes ~ 2.15.0  
-vpc ~ 3.18.1  
-eks ~ 18.30.3  
+aws ~ **4.39.0**  
+kubernetes ~ **2.15.0**  
+vpc ~ **3.18.1**  
+eks ~ **18.30.3**  
   
 list of resources created:  
   
