@@ -14,7 +14,7 @@ module "eks" {
     }
     kube-proxy = {}
     vpc-cni = {
-      addon_version     = "v1.11.4-eksbuild.1"
+      addon_version     =  local.vpc_cni_version[var.cluster_version]
       resolve_conflicts = "OVERWRITE"
     }
   }
@@ -90,9 +90,10 @@ module "eks" {
     }
   }
 
+  # TODO: allow everyone
   # aws-auth configmap
   enable_irsa               = true
-  manage_aws_auth_configmap = true
+  manage_aws_auth_configmap = false
 
   aws_auth_roles    = local.admin_roles
   aws_auth_users    = local.admin_users

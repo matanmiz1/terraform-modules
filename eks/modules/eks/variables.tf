@@ -44,4 +44,8 @@ locals {
   ]
 
   alb_controller_service_account_name = "aws-load-balancer-controller"
+  vpc_cni_version = { 
+     "1.22" = "v1.11.4-eksbuild.1",
+     "1.25" = "v1.12.2-eksbuild.1"
+  }
 }
