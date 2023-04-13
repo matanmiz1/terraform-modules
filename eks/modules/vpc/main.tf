@@ -1,7 +1,7 @@
 # VPC module is used for managing the resources in the primary az
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.18.1"
+  version = "4.0.1"
 
   name = var.vpc_name
   cidr = var.vpc_cidr

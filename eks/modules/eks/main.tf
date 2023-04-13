@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "18.30.3"
+  version = "19.12.0"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -9,13 +9,10 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
   cluster_addons = {
-    coredns = {
-      resolve_conflicts = "OVERWRITE"
-    }
+    coredns = {}
     kube-proxy = {}
     vpc-cni = {
-      addon_version     =  local.vpc_cni_version[var.cluster_version]
-      resolve_conflicts = "OVERWRITE"
+      addon_version = local.vpc_cni_version[var.cluster_version]
     }
   }
 
@@ -53,12 +50,12 @@ module "eks" {
   This security group is not attached to any EC2
   */
   cluster_security_group_additional_rules = {
-    egress_nodes_ephemeral_ports_tcp = {
-      description                = "To node 1025-65535"
+    ingress_nodes_ephemeral_ports_tcp = {
+      description                = "Nodes on ephemeral ports"
       protocol                   = "tcp"
       from_port                  = 1025
       to_port                    = 65535
-      type                       = "egress"
+      type                       = "ingress"
       source_node_security_group = true
     }
   }
@@ -69,7 +66,6 @@ module "eks" {
   Adding rules to node_security_group
   This security group is attached to the managed node groups EC2s
   */
-  node_security_group_ntp_ipv4_cidr_block = ["169.254.169.123/32"]
   node_security_group_additional_rules = {
     ingress_self_all = {
       description = "Node to node all ports/protocols"
@@ -79,21 +75,12 @@ module "eks" {
       type        = "ingress"
       self        = true
     }
-    egress_all = {
-      description      = "Node all egress"
-      protocol         = "-1"
-      from_port        = 0
-      to_port          = 0
-      type             = "egress"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-    }
   }
 
   # TODO: allow everyone
   # aws-auth configmap
   enable_irsa               = true
-  manage_aws_auth_configmap = false
+  manage_aws_auth_configmap = true
 
   aws_auth_roles    = local.admin_roles
   aws_auth_users    = local.admin_users

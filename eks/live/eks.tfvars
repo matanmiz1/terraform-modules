@@ -2,7 +2,7 @@ aws_region            = "eu-west-1"
 aws_region_short      = "ie"
 cluster_name          = "tf-Mtest"
 cluster_iam_role_name = "EKSClusterTFRole"
-cluster_version       = "1.25"
+cluster_version       = "1.22"
 environment           = "Mtest"
 
 azs                  = ["a", "b"]

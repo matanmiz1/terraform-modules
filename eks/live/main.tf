@@ -27,6 +27,6 @@ module "eks_cluster" {
   private_subnets = module.vpc.private_subnets
 
   admin_users    = ["matan.m"]
-  admin_roles    = ["<ROLE>"]
-  admin_accounts = ["<1234567890>"]
+  admin_roles    = ["AWSReservedSSO_AdministratorAccess_c02cd721fcf9a890"]
+  admin_accounts = ["1234567890"]
 }

@@ -56,7 +56,7 @@ resource "helm_release" "alb_controller" {
   chart      = "aws-load-balancer-controller"
   repository = "https://aws.github.io/eks-charts"
   namespace  = "kube-system"
-  version    = "1.4.5"
+  version    = "1.4.7"
 
   set {
     name  = "clusterName"
@@ -72,14 +72,7 @@ resource "helm_release" "alb_controller" {
     name  = "serviceAccount.name"
     value = local.alb_controller_service_account_name
   }
+
+  depends_on = [module.eks]
 }
 
-resource "aws_security_group_rule" "alb_controller_9443" {
-  description              = "AWS Load Balancer Controller"
-  type                     = "ingress"
-  from_port                = 9443
-  to_port                  = 9443
-  protocol                 = "tcp"
-  security_group_id        = module.eks.node_security_group_id
-  source_security_group_id = module.eks.cluster_security_group_id
-}
