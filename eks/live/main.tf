@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "../modules/vpc"
+  source = "../../modules/vpc"
 
   aws_region       = var.aws_region
   aws_region_short = var.aws_region_short
@@ -15,7 +15,7 @@ module "vpc" {
 }
 
 module "eks_cluster" {
-  source = "../modules/eks"
+  source = "../../modules/eks"
 
   account_id            = data.aws_caller_identity.current.account_id
   aws_region            = var.aws_region
