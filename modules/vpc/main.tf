@@ -1,7 +1,7 @@
 # VPC module is used for managing the resources in the primary az
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "4.0.1"
+  version = "~> 5.0.0"
 
   name = var.vpc_name
   cidr = var.vpc_cidr
@@ -25,5 +25,6 @@ module "vpc" {
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"           = "1"
+    "karpenter.sh/discovery"                    = var.cluster_name
   }
 }

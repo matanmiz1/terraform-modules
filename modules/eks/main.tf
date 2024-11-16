@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.12.0"
+  version = "~> 20.23.0"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -9,7 +9,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
   cluster_addons = {
-    coredns = {}
+    coredns    = {}
     kube-proxy = {}
     vpc-cni = {
       addon_version = local.vpc_cni_version[var.cluster_version]
@@ -22,19 +22,26 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     disk_size      = 50
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
+    instance_types = ["m6i.large", "m5.large", "m5n.large"]
   }
 
   eks_managed_node_groups = {
     blue = {
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
+      min_size     = 2
+      max_size     = 5
+      desired_size = 2
 
       instance_types = ["t3.large"]
       capacity_type  = "SPOT"
+
+      create_iam_role             = false
+      iam_role_arn                = aws_iam_role.workers.arn
+      create_iam_instance_profile = false
+      create_security_group       = false
     }
   }
+
+  node_security_group_tags = { "karpenter.sh/discovery" = var.cluster_name }
 
   # Don't change after deployment: https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2007
   iam_role_name                          = var.cluster_iam_role_name
@@ -64,7 +71,7 @@ module "eks" {
   /*
   Extend node-to-node security group rules
   Adding rules to node_security_group
-  This security group is attached to the managed node groups EC2s
+  This security group is attached to the (workers) managed node groups EC2s
   */
   node_security_group_additional_rules = {
     ingress_self_all = {
@@ -77,14 +84,32 @@ module "eks" {
     }
   }
 
-  # TODO: allow everyone
-  # aws-auth configmap
-  enable_irsa               = true
-  manage_aws_auth_configmap = true
+  enable_irsa = true
 
-  aws_auth_roles    = local.admin_roles
-  aws_auth_users    = local.admin_users
-  aws_auth_accounts = var.admin_accounts
+  # Cluster access entry
+  # To add the current caller identity as an administrator / 
+  # Add IAM access entry of the role running the terraform to be added with Admin permissions
+  enable_cluster_creator_admin_permissions = true
+
+  access_entries = {
+    for k, v in var.additional_admin_roles : k => {
+      principal_arn = "arn:aws:iam::${var.account_id}:role/${v}"
+      type          = "STANDARD"
+
+      policy_associations = {
+        example = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
+
+  # Deal with netskope
+  include_oidc_root_ca_thumbprint = false
+  custom_oidc_thumbprints         = concat(var.custom_oidc_thumbprint, var.custom_oidc_thumbprint_netskope)
 
   tags = {}
 }

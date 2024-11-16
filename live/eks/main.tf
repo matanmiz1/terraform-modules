@@ -25,8 +25,7 @@ module "eks_cluster" {
 
   vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
-
-  admin_users    = ["matan.m"]
-  admin_roles    = ["AWSReservedSSO_AdministratorAccess_c02cd721fcf9a890"]
-  admin_accounts = ["1234567890"]
+  additional_admin_roles = {
+    "PowerUser" = "aws-reserved/sso.amazonaws.com/AWSReservedSSO_PowerUserAccess_d5079ac01278f0a3"
+  }
 }

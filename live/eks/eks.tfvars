@@ -1,9 +1,9 @@
 aws_region            = "eu-west-1"
 aws_region_short      = "ie"
-cluster_name          = "tf-Mtest"
+cluster_name          = "ie-test-eks"
 cluster_iam_role_name = "EKSClusterTFRole"
-cluster_version       = "1.22"
-environment           = "Mtest"
+cluster_version       = "1.30"
+environment           = "test"
 
 azs                  = ["a", "b"]
 private_subnets_cidr = ["10.0.0.0/20", "10.0.16.0/20"]

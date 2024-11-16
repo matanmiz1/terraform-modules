@@ -1,0 +1,51 @@
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 300s
+  limits:
+    cpu: 50
+    memory: 100Gi
+  template:
+    metadata:
+      labels:
+        nodePool: default
+    spec:
+      nodeClassRef:
+        name: main
+      requirements:
+      - key: kubernetes.io/os
+        operator: In
+        values:
+        - linux
+      - key: karpenter.k8s.aws/instance-category
+        operator: In
+        values:
+        - c
+        - d
+        - g
+        - i
+        - m
+        - p
+        - r
+        - x
+        - z
+      - key: karpenter.k8s.aws/instance-generation
+        operator: Gt
+        values:
+        - "2"
+      - key: kubernetes.io/arch
+        operator: In
+        values:
+        - amd64
+      - key: karpenter.sh/capacity-type
+        operator: In
+        values:
+        - on-demand
+        - spot
+      startupTaints:
+        - key: ebs.csi.aws.com/agent-not-ready
+          effect: NoExecute
