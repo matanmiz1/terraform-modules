@@ -41,28 +41,3 @@ resource "aws_iam_role_policy_attachment" "alb_controller" {
   role       = aws_iam_role.alb_controller.name
   policy_arn = aws_iam_policy.alb_controller.arn
 }
-
-# resource "helm_release" "alb_controller" {
-#   name       = "aws-load-balancer-controller"
-#   chart      = "aws-load-balancer-controller"
-#   repository = "https://aws.github.io/eks-charts"
-#   namespace  = "kube-system"
-#   version    = "1.10.0"
-#   set {
-#     name  = "clusterName"
-#     value = var.cluster_name
-#   }
-#   set {
-#     name  = "serviceAccount.create"
-#     value = true
-#   }
-#   set {
-#     name  = "serviceAccount.name"
-#     value = local.alb_controller_service_account_name
-#   }
-#   set{
-#     name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-#     value = "arn:aws:iam::883241448326:role/AmazonEKSLoadBalancerControllerRole-ie-test-eks"
-#   }
-#   depends_on = [module.eks]
-# }

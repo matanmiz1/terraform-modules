@@ -17,9 +17,10 @@ resource "aws_iam_role" "workers" {
 }
 
 resource "aws_iam_role_policy_attachment" "workers" {
-  for_each   = toset(local.workers_policies)
-  policy_arn = "arn:aws:iam::aws:policy/${each.key}"
+  for_each = toset(local.workers_policies)
+
   role       = aws_iam_role.workers.name
+  policy_arn = "arn:aws:iam::aws:policy/${each.key}"
 }
 
 resource "aws_iam_instance_profile" "workers" {

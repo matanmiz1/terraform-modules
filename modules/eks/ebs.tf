@@ -28,11 +28,14 @@ data "aws_iam_policy_document" "ebs_assume" {
   }
 }
 
-# TODO: managed_policy_arns is deprecated
 resource "aws_iam_role" "ebs" {
-  name                = "AmazonEKS_EBS_CSI_DriverRole-${var.cluster_name}"
-  assume_role_policy  = data.aws_iam_policy_document.ebs_assume.json
-  managed_policy_arns = [data.aws_iam_policy.AmazonEBSCSIDriverPolicy.arn]
+  name               = "AmazonEKS_EBS_CSI_DriverRole-${var.cluster_name}"
+  assume_role_policy = data.aws_iam_policy_document.ebs_assume.json
+}
+
+resource "aws_iam_role_policy_attachment" "ebs" {
+  role       = aws_iam_role.ebs.name
+  policy_arn = data.aws_iam_policy.AmazonEBSCSIDriverPolicy.arn
 }
 
 resource "aws_eks_addon" "ebs" {

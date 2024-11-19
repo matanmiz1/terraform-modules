@@ -14,7 +14,7 @@ resource "aws_nat_gateway" "this" {
   subnet_id     = aws_subnet.public[0].id
 
   tags = {
-    Name = "${var.vpc_name}-nat-${local.public_subnets_availability_zones[count.index]}"
+    Name = "${var.vpc_name}-nat-${var.public_subnets_availability_zones[count.index]}"
   }
 
   depends_on = [aws_internet_gateway.this]
