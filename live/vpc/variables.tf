@@ -7,13 +7,11 @@ variable "aws_region_short" {
   type = string
 }
 
-variable "cluster_iam_role_name" {}
-variable "cluster_name" {}
-variable "cluster_version" {}
-
 variable "environment" {
   default = "test"
 }
+
+variable "kubernetes_cluster_name"{}
 
 variable "private_subnets_availability_zones" {}
 variable "private_subnets_cidrs" {}

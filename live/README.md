@@ -7,7 +7,6 @@ AWS Load Balancer Controller was migrated to ArgoCD.
 Tested on versions:  
 aws ~ **5.61.0**
 kubernetes ~ **2.33.0**
-vpc ~ **5.0.0**
 eks ~ **20.23.0**
 karpenter ~ **20.17.2**
   
@@ -26,9 +25,6 @@ module.eks_cluster.data.aws_iam_policy_document.alb_controller_assume
 module.eks_cluster.aws_iam_policy.alb_controller
 module.eks_cluster.aws_iam_role.alb_controller
 module.eks_cluster.aws_iam_role_policy_attachment.alb_controller
-
-module.eks_cluster.helm_release.alb_controller
-module.eks_cluster.kubernetes_service_account.alb_controller
 --- ALB Controller ---
   
 --- EKS ---
@@ -78,7 +74,7 @@ module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_all"]
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns_tcp"]
 module.eks_cluster.module.eks.aws_security_group_rule.node["ingress_self_coredns_udp"]
 module.eks_cluster.module.eks.time_sleep.this[0]
---- EKS ---  
+--- EKS ---
 
 --- Karpenter ---
 module.eks_cluster.helm_release.karpenter
@@ -104,28 +100,26 @@ module.eks_cluster.module.karpenter.aws_sqs_queue_policy.this[0]
 --- Karpenter ---
 
 --- VPC ---
-module.vpc.module.vpc.aws_default_network_acl.this[0]
-module.vpc.module.vpc.aws_default_route_table.default[0]
-module.vpc.module.vpc.aws_default_security_group.this[0]
-module.vpc.module.vpc.aws_eip.nat[0]
-module.vpc.module.vpc.aws_internet_gateway.this[0]
-module.vpc.module.vpc.aws_nat_gateway.this[0]
-module.vpc.module.vpc.aws_route.private_nat_gateway[0]
-module.vpc.module.vpc.aws_route.public_internet_gateway[0]
-module.vpc.module.vpc.aws_route_table.private[0]
-module.vpc.module.vpc.aws_route_table.public[0]
-module.vpc.module.vpc.aws_route_table_association.private[0]
-module.vpc.module.vpc.aws_route_table_association.private[1]
-module.vpc.module.vpc.aws_route_table_association.public[0]
-module.vpc.module.vpc.aws_route_table_association.public[1]
-module.vpc.module.vpc.aws_subnet.private[0]
-module.vpc.module.vpc.aws_subnet.private[1]
-module.vpc.module.vpc.aws_subnet.public[0]
-module.vpc.module.vpc.aws_subnet.public[1]
-module.vpc.module.vpc.aws_vpc.this[0]
---- VPC ---  
+module.vpc.aws_default_network_acl.default
+module.vpc.aws_default_route_table.default
+module.vpc.aws_default_security_group.default
+module.vpc.aws_eip.nat[0]
+module.vpc.aws_internet_gateway.this
+module.vpc.aws_nat_gateway.this[0]
+module.vpc.aws_route_table.private
+module.vpc.aws_route_table.public
+module.vpc.aws_route_table_association.private[0]
+module.vpc.aws_route_table_association.private[1]
+module.vpc.aws_route_table_association.public[0]
+module.vpc.aws_route_table_association.public[1]
+module.vpc.aws_subnet.private[0]
+module.vpc.aws_subnet.private[1]
+module.vpc.aws_subnet.public[0]
+module.vpc.aws_subnet.public[1]
+module.vpc.aws_vpc.this
+--- VPC ---
 
---- Node Groups ---  
+--- Node Groups ---
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_caller_identity.current
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].data.aws_partition.current
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].aws_eks_node_group.this[0]
@@ -136,15 +130,15 @@ module.eks_cluster.module.eks.module.kms.data.aws_partition.current[0]
 module.eks_cluster.module.eks.module.kms.aws_kms_alias.this["cluster"]
 module.eks_cluster.module.eks.module.kms.aws_kms_key.this[0]
 module.eks_cluster.module.eks.module.eks_managed_node_group["blue"].module.user_data.null_resource.validate_cluster_service_cidr
---- Node Groups ---  
+--- Node Groups ---
 
---- KMS ---  
+--- KMS ---
 module.eks_cluster.module.eks.module.kms.data.aws_caller_identity.current[0]
 module.eks_cluster.module.eks.module.kms.data.aws_iam_policy_document.this[0]
 module.eks_cluster.module.eks.module.kms.data.aws_partition.current[0]
 module.eks_cluster.module.eks.module.kms.aws_kms_alias.this["cluster"]
 module.eks_cluster.module.eks.module.kms.aws_kms_key.this[0]
---- KMS ---  
+--- KMS ---
 
 ## Known Bugs
 1. Deploying the module results in the following error:
@@ -165,6 +159,3 @@ But this doesn't mean there is an error with the configmap, but concealing other
 
 In my MacOS, this happens because netskope prevents from using self-signed certificates.
 To get around this, run ```kubectl get pods --insecure-skip-tls-verify``` once, than run ```terraform apply``` again.
-
-
-

@@ -1,23 +1,29 @@
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
-  name: main
+  name: base
 spec:
   amiFamily: AL2
   blockDeviceMappings:
-    # Root device
     - deviceName: /dev/xvda
       ebs:
         encrypted: true
-        volumeSize: 20Gi
-        volumeType: gp2
+        volumeSize: 30Gi
+        volumeType: gp2           # TODO: gp3
+  # metadataOptions:
+  #   httpEndpoint: enabled
+  #   httpProtocolIPv6: disabled
+  #   httpPutResponseHopLimit: 2
+  #   httpTokens: required
   role: "ie-test-eks-nodes-group"
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "ie-test-eks"
+        karpenter.sh/discovery: ie-test-eks
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "ie-test-eks"
+        karpenter.sh/discovery: ie-test-eks
   tags:
     Name: ie-test-eks-general
     Type: karpenter_compute
+  # userData: |-
+  #   #!/bin/bash

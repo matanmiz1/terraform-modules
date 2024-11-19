@@ -1,24 +1,25 @@
 module "vpc" {
-  source = "../../modules/vpc"
+  source = "../../modules/vpc_new"
 
-  aws_region       = var.aws_region
-  aws_region_short = var.aws_region_short
-  environment      = var.environment
+  aws_region = var.aws_region
 
-  cluster_name = var.cluster_name
+  kubernetes_cluster_name = var.cluster_name
 
-  azs                  = var.azs
-  private_subnets_cidr = var.private_subnets_cidr
-  public_subnets_cidr  = var.public_subnets_cidr
-  vpc_cidr             = var.vpc_cidr
-  vpc_name             = var.vpc_name
+  private_subnets_availability_zones = var.private_subnets_availability_zones
+  private_subnets_cidrs              = var.private_subnets_cidrs
+  public_subnets_availability_zones  = var.public_subnets_availability_zones
+  public_subnets_cidrs               = var.public_subnets_cidrs
+
+  vpc_cidr = var.vpc_cidr
+  vpc_name = var.vpc_name
 }
 
 module "eks_cluster" {
   source = "../../modules/eks"
 
-  account_id            = data.aws_caller_identity.current.account_id
-  aws_region            = var.aws_region
+  account_id = data.aws_caller_identity.current.account_id
+  aws_region = var.aws_region
+  
   cluster_iam_role_name = var.cluster_iam_role_name
   cluster_name          = var.cluster_name
   cluster_version       = var.cluster_version

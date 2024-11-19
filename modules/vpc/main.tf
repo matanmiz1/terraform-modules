@@ -1,30 +1,9 @@
-# VPC module is used for managing the resources in the primary az
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0.0"
+resource "aws_vpc" "this" {
+  cidr_block = var.vpc_cidr
 
-  name = var.vpc_name
-  cidr = var.vpc_cidr
+  enable_dns_hostnames = var.enable_dns_hostnames
 
-  azs             = [for az in var.azs : "${var.aws_region}${az}"]
-  private_subnets = var.private_subnets_cidr
-  public_subnets  = var.public_subnets_cidr
-
-  enable_dns_hostnames = true
-
-  # Single NAT Gateway
-  enable_nat_gateway     = true
-  single_nat_gateway     = true
-  one_nat_gateway_per_az = false
-
-  tags = {}
-  public_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                    = "1"
-  }
-  private_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"           = "1"
-    "karpenter.sh/discovery"                    = var.cluster_name
+  tags = {
+    Name = var.vpc_name
   }
 }

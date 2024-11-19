@@ -1,7 +1,7 @@
 apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
-  name: default
+  name: main
 spec:
   disruption:
     consolidationPolicy: WhenEmpty
@@ -12,10 +12,10 @@ spec:
   template:
     metadata:
       labels:
-        nodePool: default
+        nodePool: main
     spec:
       nodeClassRef:
-        name: main
+        name: base
       requirements:
       - key: kubernetes.io/os
         operator: In
