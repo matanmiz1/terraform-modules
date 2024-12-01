@@ -53,28 +53,28 @@ resource "aws_route_table" "private" {
   }
 }
 
-resource "aws_route_table_association" "private" {
-  count = length(var.private_subnets)
+resource "aws_route_table_association" "public" {
+  for_each = { for subnet in var.public_subnets : subnet.cidr => subnet }
 
-  subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private.id
+  subnet_id      = aws_subnet.public[each.key].id
+  route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table_association" "public" {
-  count = length(var.public_subnets)
+resource "aws_route_table_association" "private" {
+  for_each = { for subnet in var.private_subnets : subnet.cidr => subnet }
 
-  subnet_id      = aws_subnet.public[count.index].id
-  route_table_id = aws_route_table.public.id
+  subnet_id      = aws_subnet.private[each.key].id
+  route_table_id = aws_route_table.private.id
 }
 
 resource "aws_route_table_association" "database" {
-  count = length(var.database_subnets)
+  for_each = { for subnet in var.database_subnets : subnet.cidr => subnet }
 
-  subnet_id      = aws_subnet.database[count.index].id
+  subnet_id      = aws_subnet.database[each.key].id
   route_table_id = aws_route_table.private.id
 }
 
-resource "aws_route_table_association" "client_vpn" {
-  subnet_id      = aws_subnet.client_vpn.id
-  route_table_id = aws_route_table.public.id
-}
+# resource "aws_route_table_association" "client_vpn" {
+#   subnet_id      = aws_subnet.client_vpn.id
+#   route_table_id = aws_route_table.public.id
+# }

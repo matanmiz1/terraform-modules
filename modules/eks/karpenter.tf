@@ -1,12 +1,15 @@
 module "karpenter" {
+  count = var.enable_karpenter == true ? 1 : 0
+
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
   version = "~> 20.17.2"
 
   cluster_name = module.eks.cluster_name
 
-  enable_pod_identity    = false
-  enable_irsa            = true
-  irsa_oidc_provider_arn = module.eks.oidc_provider_arn
+  enable_pod_identity             = false
+  enable_irsa                     = true
+  irsa_oidc_provider_arn          = module.eks.oidc_provider_arn
+  irsa_namespace_service_accounts = ["kube-system:karpenter"]
 
   create_node_iam_role = false
   create_access_entry  = false
@@ -22,39 +25,4 @@ module "karpenter" {
 
   # Managed in other Code
   create_instance_profile = false
-}
-
-resource "helm_release" "karpenter" {
-  namespace        = "karpenter"
-  create_namespace = true
-
-  name       = "karpenter"
-  repository = "oci://public.ecr.aws/karpenter"
-  chart      = "karpenter"
-  version    = "v0.32.10"
-
-  set {
-    name  = "settings.aws.clusterName"
-    value = module.eks.cluster_name
-  }
-
-  set {
-    name  = "settings.aws.clusterEndpoint"
-    value = module.eks.cluster_endpoint
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = module.karpenter.service_account
-  }
-
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = module.karpenter.iam_role_arn
-  }
-
-  set {
-    name  = "settings.aws.interruptionQueueName"
-    value = module.karpenter.queue_name
-  }
 }

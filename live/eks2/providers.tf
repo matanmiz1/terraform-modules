@@ -32,8 +32,8 @@ provider "aws" {
 }
 
 provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  host                   = module.eks2.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks2.cluster_certificate_authority_data)
 
   # Doesn't work yet: https://github.com/hashicorp/terraform-provider-kubernetes/issues/1546
   # Should solve: 'Error: The configmap "aws-auth" does not exist' on deploying
@@ -43,18 +43,19 @@ provider "kubernetes" {
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    args        = ["eks", "get-token", "--cluster-name", module.eks2.cluster_name]
   }
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-    }
-  }
-}
+### Doesn't being used in eks2
+# provider "helm" {
+#   kubernetes {
+#     host                   = module.eks2.cluster_endpoint
+#     cluster_ca_certificate = base64decode(module.eks2.cluster_certificate_authority_data)
+#     exec {
+#       api_version = "client.authentication.k8s.io/v1beta1"
+#       command     = "aws"
+#       args        = ["eks", "get-token", "--cluster-name", module.eks2.cluster_name]
+#     }
+#   }
+# }

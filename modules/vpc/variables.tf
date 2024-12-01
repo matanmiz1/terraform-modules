@@ -1,5 +1,17 @@
+variable "availability_zones" {
+  type = list(string)
+}
+
 variable "aws_region" {
   type = string
+}
+
+variable "client_vpn_subnet_cidr" {
+  type = string
+}
+
+variable "database_subnets" {
+  type = list(string)
 }
 
 variable "enable_dns_hostnames" {
@@ -7,14 +19,8 @@ variable "enable_dns_hostnames" {
   default = true
 }
 
-variable "private_subnets_availability_zones" {
-  type    = list(string)
-  default = []
-}
-
-variable "private_subnets_cidrs" {
-  type    = list(string)
-  default = []
+variable "private_subnets" {
+  type = list(string)
 }
 
 variable "private_subnets_tags" {
@@ -22,14 +28,8 @@ variable "private_subnets_tags" {
   default = {}
 }
 
-variable "public_subnets_availability_zones" {
-  type    = list(string)
-  default = []
-}
-
-variable "public_subnets_cidrs" {
-  type    = list(string)
-  default = []
+variable "public_subnets" {
+  type = list(string)
 }
 
 variable "public_subnets_tags" {

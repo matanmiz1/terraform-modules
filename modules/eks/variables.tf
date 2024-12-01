@@ -10,9 +10,16 @@ variable "aws_region" {
   type        = string
 }
 
-variable "cluster_iam_role_name" {}
 variable "cluster_name" {}
-variable "cluster_version" {}
+variable "cluster_version" {
+  type    = string
+  default = "1.30"
+}
+
+variable "enable_karpenter" {
+  type    = bool
+  default = true
+}
 
 variable "vpc_id" {}
 variable "private_subnets" {}

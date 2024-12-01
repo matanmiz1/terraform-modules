@@ -44,11 +44,11 @@ module "eks" {
   node_security_group_tags = { "karpenter.sh/discovery" = var.cluster_name }
 
   # Don't change after deployment: https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2007
-  iam_role_name                          = var.cluster_iam_role_name
+  iam_role_name                          = "${var.cluster_name}EKSClusterRole"
   iam_role_use_name_prefix               = false
-  cluster_security_group_name            = "cluster_security_group_name" # Additional security group
+  cluster_security_group_name            = "${var.cluster_name}-cluster_security_group_name" # Additional security group
   cluster_security_group_use_name_prefix = false
-  node_security_group_name               = "node_security_group_name"
+  node_security_group_name               = "${var.cluster_name}-node_security_group_name"
   node_security_group_use_name_prefix    = false
 
   /*
@@ -66,7 +66,6 @@ module "eks" {
       source_node_security_group = true
     }
   }
-
 
   /*
   Extend node-to-node security group rules

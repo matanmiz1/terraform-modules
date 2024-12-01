@@ -7,23 +7,21 @@ variable "aws_region_short" {
   type = string
 }
 
-variable "cluster_iam_role_name" {}
 variable "cluster_name" {}
-variable "cluster_version" {}
 
 variable "environment" {
   default = "test"
 }
 
-variable "private_subnets_availability_zones" {}
-variable "private_subnets_cidrs" {}
-variable "public_subnets_availability_zones" {}
-variable "public_subnets_cidrs" {}
-
 variable "vpc_cidr" {}
 variable "vpc_name" {}
 
 locals {
+  private_subnets   = [cidrsubnet(var.vpc_cidr, 3, 1), cidrsubnet(var.vpc_cidr, 3, 2), cidrsubnet(var.vpc_cidr, 3, 3)]    # X.X.32.0/19  X.X.64.0/19  X.X.96.0/19
+  public_subnets    = [cidrsubnet(var.vpc_cidr, 8, 5), cidrsubnet(var.vpc_cidr, 8, 6), cidrsubnet(var.vpc_cidr, 8, 7)]    # X.X.5.0/24   X.X.6.0/24   X.X.7.0/24
+  database_subnets  = [cidrsubnet(var.vpc_cidr, 8, 15), cidrsubnet(var.vpc_cidr, 8, 16), cidrsubnet(var.vpc_cidr, 8, 17)] # X.X.15.0/24  X.X.16.0/24  X.X.17.0/24
+  client_vpn_subnet = "10.0.0.0/24"
+
   public_subnets_kubernetes_tags = {
     "kubernetes.io/role/elb" = "1"
   }
