@@ -5,10 +5,10 @@ AWS Load Balancer Controller was migrated to ArgoCD.
 Karpenter was migrated to ArgoCD.
 
 Tested on versions:  
-aws ~ **5.61.0**
+aws ~ **5.75.1**
 kubernetes ~ **2.33.0**
-eks ~ **20.23.0**
-karpenter ~ **20.17.2**
+eks ~ **20.30.1**
+karpenter ~ **20.30.1**
 
 ## Known Bugs
 1. Deploying the module results in the following error:

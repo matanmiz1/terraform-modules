@@ -78,3 +78,8 @@ resource "aws_route_table_association" "client_vpn" {
   subnet_id      = aws_subnet.client_vpn.id
   route_table_id = aws_route_table.public.id
 }
+
+resource "aws_vpc_endpoint_route_table_association" "s3_gateway" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3_gateway.id
+  route_table_id = aws_route_table.private.id
+}

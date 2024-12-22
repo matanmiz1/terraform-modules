@@ -2,10 +2,11 @@ module "karpenter" {
   count = var.enable_karpenter == true ? 1 : 0
 
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
-  version = "~> 20.17.2"
+  version = "~> 20.30.1"
 
   cluster_name = module.eks.cluster_name
 
+  enable_v1_permissions           = true
   enable_pod_identity             = false
   enable_irsa                     = true
   irsa_oidc_provider_arn          = module.eks.oidc_provider_arn

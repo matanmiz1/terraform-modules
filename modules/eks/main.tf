@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.23.0"
+  version = "~> 20.30.1"
 
   cluster_name    = var.cluster_name
   cluster_version = var.cluster_version
@@ -120,6 +120,7 @@ resource "null_resource" "kubeconfig" {
     cluster_name = var.cluster_name
   }
 
+  # TODO: update context name
   provisioner "local-exec" {
     command = "aws eks update-kubeconfig --name ${self.triggers.cluster_name} --region ${self.triggers.aws_region}"
   }
