@@ -13,7 +13,7 @@ variable "aws_region" {
 variable "cluster_name" {}
 variable "cluster_version" {
   type    = string
-  default = "1.30"
+  default = "1.31"
 }
 
 variable "enable_karpenter" {
@@ -39,14 +39,17 @@ variable "custom_oidc_thumbprint_netskope" {
 locals {
   alb_controller_service_account_name = "aws-load-balancer-controller"
   vpc_cni_version = {
-    "1.22" = "v1.11.4-eksbuild.1",
-    "1.25" = "v1.12.2-eksbuild.1"
-    "1.28" = "v1.15.1-eksbuild.1"
     "1.30" = "v1.18.5-eksbuild.1"
+    "1.31" = "v1.19.0-eksbuild.1"
   }
 
   ebs_csi_version = {
     "1.30" = "v1.36.0-eksbuild.1"
+    "1.31" = "v1.37.0-eksbuild.1"
+  }
+
+  coredns_version = {
+    "1.31" = "v1.11.3-eksbuild.2"
   }
 
   workers_policies = ["AmazonEKSWorkerNodePolicy", "AmazonEKS_CNI_Policy", "AmazonEC2ContainerRegistryReadOnly", "CloudWatchAgentServerPolicy", "AmazonSSMManagedInstanceCore"]

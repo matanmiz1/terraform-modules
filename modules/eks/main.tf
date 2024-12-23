@@ -9,7 +9,9 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
   cluster_addons = {
-    coredns    = {}
+    coredns = {
+      addon_version = local.coredns_version[var.cluster_version]
+    }
     kube-proxy = {}
     vpc-cni = {
       addon_version = local.vpc_cni_version[var.cluster_version]
