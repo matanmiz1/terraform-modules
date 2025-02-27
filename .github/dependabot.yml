@@ -5,7 +5,42 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "terraform"
+    directory: "/live/vpc"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+      time: "10:00"
+      timezone: "Asia/Tel_Aviv"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "all"
+
+  - package-ecosystem: "terraform"
+    directory: "/live/eks"
+    schedule:
+      interval: "daily"
+      time: "10:00"
+      timezone: "Asia/Tel_Aviv"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "all"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/vpc"
+    schedule:
+      interval: "daily"
+      time: "10:00"
+      timezone: "Asia/Tel_Aviv"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "all"
+
+  - package-ecosystem: "terraform"
+    directory: "/modules/eks"
+    schedule:
+      interval: "daily"
+      time: "10:00"
+      timezone: "Asia/Tel_Aviv"
+    open-pull-requests-limit: 10
+    allow:
+      - dependency-type: "all"
