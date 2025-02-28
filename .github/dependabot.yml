@@ -6,9 +6,11 @@
 version: 2
 updates:
   - package-ecosystem: "terraform"
-    directory: "/live/vpc"
+    directories:
+      - "/live/vpc"
+      - "/modules/vpc"
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "10:00"
       timezone: "Asia/Tel_Aviv"
     open-pull-requests-limit: 10
@@ -16,31 +18,21 @@ updates:
       - dependency-type: "all"
 
   - package-ecosystem: "terraform"
-    directory: "/live/eks"
+    directories:
+      - "/live/eks"
+      - "/modules/eks"
     schedule:
-      interval: "daily"
+      interval: "weekly"
       time: "10:00"
       timezone: "Asia/Tel_Aviv"
     open-pull-requests-limit: 10
     allow:
       - dependency-type: "all"
 
-  - package-ecosystem: "terraform"
-    directory: "/modules/vpc"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "daily"
+      interval: daily
       time: "10:00"
       timezone: "Asia/Tel_Aviv"
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: "all"
-
-  - package-ecosystem: "terraform"
-    directory: "/modules/eks"
-    schedule:
-      interval: "daily"
-      time: "10:00"
-      timezone: "Asia/Tel_Aviv"
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: "all"
+    target-branch: master
