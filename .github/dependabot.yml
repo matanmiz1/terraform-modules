@@ -1,38 +1,38 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# # To get started with Dependabot version updates, you'll need to specify which
+# # package ecosystems to update and where the package manifests are located.
+# # Please see the documentation for all configuration options:
+# # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
-version: 2
-updates:
-  - package-ecosystem: "terraform"
-    directories:
-      - "/live/vpc"
-      - "/modules/vpc"
-    schedule:
-      interval: "weekly"
-      time: "10:00"
-      timezone: "Asia/Tel_Aviv"
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: "all"
+# version: 2
+# updates:
+#   - package-ecosystem: "terraform"
+#     directories:
+#       - "/live/vpc"
+#       - "/modules/vpc"
+#     schedule:
+#       interval: "weekly"
+#       time: "10:00"
+#       timezone: "Asia/Tel_Aviv"
+#     open-pull-requests-limit: 10
+#     allow:
+#       - dependency-type: "all"
 
-  - package-ecosystem: "terraform"
-    directories:
-      - "/live/eks"
-      - "/modules/eks"
-    schedule:
-      interval: "weekly"
-      time: "10:00"
-      timezone: "Asia/Tel_Aviv"
-    open-pull-requests-limit: 10
-    allow:
-      - dependency-type: "all"
+#   - package-ecosystem: "terraform"
+#     directories:
+#       - "/live/eks"
+#       - "/modules/eks"
+#     schedule:
+#       interval: "weekly"
+#       time: "10:00"
+#       timezone: "Asia/Tel_Aviv"
+#     open-pull-requests-limit: 10
+#     allow:
+#       - dependency-type: "all"
 
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: daily
-      time: "10:00"
-      timezone: "Asia/Tel_Aviv"
-    target-branch: master
+#   - package-ecosystem: github-actions
+#     directory: /
+#     schedule:
+#       interval: daily
+#       time: "10:00"
+#       timezone: "Asia/Tel_Aviv"
+#     target-branch: master
